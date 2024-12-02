@@ -1,16 +1,16 @@
 
 
- // const myKey = "a9f235dc"
+
 
  const myKey = import.meta.env.VITE_API_KEY
-console.log(myKey)
+
 
  const formElement = document.getElementById("form-to-submit")
  const inputText = document.getElementById("input-text")
  const movieContainer = document.getElementById("movie-container")
 
 
-// getting movie details
+
 function getMovieSeries(movie){
     
     fetch(`https://www.omdbapi.com/?apikey=${myKey}&s=${movie}&type=series`)
@@ -31,7 +31,7 @@ function getMovieSeries(movie){
                 fetch(`https://www.omdbapi.com/?apikey=${myKey}&i=${item.imdbID}`)
                     .then(res => res.json())
                     .then(details => {
-                        // console.log(details)
+                    
                         const { Title, Genre, imdbRating, Runtime, Plot, Poster } = details
                    
                     
@@ -68,19 +68,14 @@ function getMovieSeries(movie){
 
         })
         .catch(error => {
-            // console.error("Error fetching movie:", error.message)
+            
             showErrorMessage("Unabe to find what you are looking for, please try another search!!!")
         })
 
 }
 
 
-// function addToWatchlist(movie) {
-//     let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
-//     watchlist.push(movie);
-//     localStorage.setItem("watchlist", JSON.stringify(watchlist));
-// }
-
+window.addToWatchlist = addToWatchlist;
 
 function addToWatchlist(encodedMovie) {
     const movie = JSON.parse(decodeURIComponent(encodedMovie));
@@ -88,6 +83,17 @@ function addToWatchlist(encodedMovie) {
     watchlist.push(movie);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
 }
+window.addToWatchlist = addToWatchlist;
+
+
+
+
+// function addToWatchlist(encodedMovie) {
+//     const movie = JSON.parse(decodeURIComponent(encodedMovie));
+//     let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+//     watchlist.push(movie);
+//     localStorage.setItem("watchlist", JSON.stringify(watchlist));
+// }
 
 
 function showErrorMessage(message){
@@ -95,16 +101,23 @@ function showErrorMessage(message){
     movieContainer.innerHTML = `<p class="loading-message">${message}</p>`
 }
 
+// function loadingMessage(message){
+//     movieContainer.innerHTML = "";
+//     movieContainer.innerHTML = `<h2 class="loading-message>${message}</h2>`
+// }
+
+
 function loadingMessage(message){
     movieContainer.innerHTML = "";
-    movieContainer.innerHTML = `<h2 class="loading-message>${message}</h2>`
+    movieContainer.innerHTML = `<h2 class="loading-message">${message}</h2>`;
 }
+
 
 formElement.addEventListener("submit", function(e){
     e.preventDefault()
     const movieName = inputText.value.trim()
     if(movieName !== ""){
-        // console.log(movieName)
+        
         loadingMessage("fetching series information")
         
         getMovieSeries(movieName);
