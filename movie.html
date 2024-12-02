@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Smythe&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="index.css" />
+    <title>Movie List </title>
+</head>
+<body>
+    <header class="heading">
+        <h1 class="h1-heading">Find your film</h1>
+        <p class="p-heading"><a href="index.html">Search for movies</a></p>
+    </header>
+ 
+        <form class="input-container" id="form-to-submit">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text"  id="input-text" placeholder="Blade Runner" />
+            <button type="submit" class="btn">Search</button>
+        </form>
+       <br>
+       <br>
+        <div id="watchlist-container"></div>
+ 
+    <br>
+    <br>
+  
+
+   <script >
+
+
+
+
+        
+// Function to render the watchlist
+function renderWatchlist() {
+    const watchlistContainer = document.getElementById("watchlist-container");
+    const watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+
+    watchlistContainer.innerHTML = ""; // Clear previous content
+    watchlistContainer.classList.add("watchlist-container")
+
+
+    if (watchlist.length === 0) {
+        // Display a message if the watchlist is empty
+        watchlistContainer.innerHTML = `<p>Your watchlist is empty. Please go back to my watchlist, search a movie and add to watchlist.</p>`;
+        watchlistContainer.classList.add("empty-message"); // Optional: add a class for styling the message
+        return; // Exit the function early since there's nothing to render
+    }
+
+
+    watchlist.forEach((movie, index) => {
+        const { Title, Genre, imdbRating, Runtime, Plot, Poster } = movie;
+
+        const imgDiv = document.createElement("div");
+        imgDiv.classList.add("img-post");
+        imgDiv.innerHTML = `<img src="${Poster}" alt="" class="img-poster" />`;
+
+        const seriesDetails = document.createElement("div");
+        seriesDetails.classList.add("series-details");
+
+        // Remove button beside Genre
+        seriesDetails.innerHTML = `
+            <div class="display-title">
+                <h3>${Title}</h3>
+                <h4><i class="fa-solid fa-star"></i>${imdbRating}</h4>
+            </div>
+            <div class="runtime">
+                <h5>${Runtime}</h5>
+                <h5>${Genre}</h5>
+                <button onclick="removeFromWatchlist(${index})" class="remove-btn">
+                    <i class="fa-solid fa-minus"></i> Remove
+                </button>
+            </div>
+            <p>${Plot}</p>
+        `;
+
+        const divider = document.createElement("hr");
+        watchlistContainer.appendChild(imgDiv);
+        watchlistContainer.appendChild(seriesDetails);
+        watchlistContainer.appendChild(divider);
+    });
+}
+
+//Function to remove a movie from the watchlist
+function removeFromWatchlist(index) {
+    let watchlist = JSON.parse(localStorage.getItem("watchlist")) || [];
+    watchlist.splice(index, 1);
+    localStorage.setItem("watchlist", JSON.stringify(watchlist));
+    renderWatchlist(); // Refresh the list
+}
+
+ // Load the watchlist when the page loads
+document.addEventListener("DOMContentLoaded", renderWatchlist);
+
+   </script>
+</body>
+</html>
