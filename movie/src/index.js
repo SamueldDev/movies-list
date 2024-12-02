@@ -24,7 +24,7 @@ function getMovieSeries(movie){
 
         .then(data => {
         
-            movieContainer.innerHTML = "",
+            movieContainer.innerHTML = "";
             movieContainer.classList.add("movie-container")
             
             data.Search.slice(0, 3).forEach((item) => {
@@ -38,7 +38,7 @@ function getMovieSeries(movie){
                      const imgDiv = document.createElement("div")
                      imgDiv.classList.add("img-post")
 
-                     imgDiv.innerHTML = `<img src=${Poster} alt="" class="img-poster" } />`
+                     imgDiv.innerHTML = `<img src=${Poster} alt="" class="img-poster"  />`
 
                      const seriesDetails = document.createElement("div")
                      seriesDetails.classList.add("series-details")
@@ -68,8 +68,8 @@ function getMovieSeries(movie){
 
         })
         .catch(error => {
-            
-            showErrorMessage("Unabe to find what you are looking for, please try another search!!!")
+            console.error("error fetching data:", error)
+            showErrorMessage("Unable to find what you are looking for, please try another search!!!")
         })
 
 }
@@ -83,7 +83,7 @@ function addToWatchlist(encodedMovie) {
     watchlist.push(movie);
     localStorage.setItem("watchlist", JSON.stringify(watchlist));
 }
-window.addToWatchlist = addToWatchlist;
+
 
 
 

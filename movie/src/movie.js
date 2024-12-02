@@ -11,7 +11,7 @@ function renderWatchlist(){
 
         const imgDiv = document.createElement("div");
         imgDiv.classList.add("img-post");
-        imgDiv.innerHTML = `<img serc=${Poster} alt="" class="img-poster" />`;
+        imgDiv.innerHTML = `<img src=${Poster} alt="" class="img-poster" />`;
 
         const seriesDetails = document.createElement("div");
         seriesDetails.classList.add("series-details");
